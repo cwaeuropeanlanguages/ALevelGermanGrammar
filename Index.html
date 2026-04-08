@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A-Level German Grammar Trainer</title>
+<style>
+:root{
+  --bg:#07111f; --bg2:#0d1b33; --bg3:#122446;
+  --panel:#ffffff; --panel-soft:#f6f8fd; --panel-soft-2:#eef3ff;
+  --text:#13233f; --muted:#5f708d; --line:#dde6f2; --line-strong:#c9d6e8;
+  --primary:#4b63ff; --primary-2:#3148cf; --primary-soft:#eef2ff;
+  --green:#108252; --green-soft:#ebfaf2; --red:#c04a3a; --red-soft:#fff1ef;
+  --amber:#a56a12; --amber-soft:#fff7e8; --shadow:0 22px 70px rgba(14,26,51,.12);
+  --radius-xl:32px; --radius-lg:24px; --radius:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(91,119,255,.18), transparent 26%),
+    radial-gradient(circle at top right, rgba(56,117,255,.10), transparent 22%),
+    linear-gradient(180deg,#eef3ff 0,#f6f8fd 260px,#f7f9fd 100%);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer;transition:.18s ease}
+.hidden{display:none!important}
+.shell{max-width:1360px;margin:0 auto;padding:26px 20px 60px}
+.topbar{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:22px}
+.brand{display:flex;gap:14px;align-items:center}
+.logo{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--primary),#7b8fff);box-shadow:0 10px 35px rgba(75,99,255,.25);display:grid;place-items:center;color:#fff;font-size:1.45rem;font-weight:900}
+.brand-text h1{margin:0 0 4px;font-size:clamp(1.45rem,2vw,2rem);line-height:1.05}
+.brand-text p{margin:0;color:var(--muted);line-height:1.45}
+.progress-pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:12px 16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:center}
+.progress-ring{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--primary) var(--p,0%), #e7ecf5 0);position:relative}
+.progress-ring::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff}
+.progress-ring span{position:relative;z-index:2;font-size:.78rem;font-weight:800}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-bottom:24px}
+.hero-card{background:linear-gradient(135deg,rgba(15,24,43,.98),rgba(24,42,79,.96)),radial-gradient(circle at top right, rgba(108,132,255,.24), transparent 38%);color:#fff;border-radius:var(--radius-xl);padding:30px;box-shadow:0 28px 80px rgba(6,16,34,.24);position:relative;overflow:hidden}
+.hero-card::before{content:"";position:absolute;inset:auto -40px -40px auto;width:220px;height:220px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 62%)}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#d0dcff}
+.eyebrow i{width:9px;height:9px;border-radius:999px;background:#95aaff;display:inline-block}
+.hero-card h2{margin:0 0 12px;font-size:clamp(1.7rem,2.6vw,2.6rem);line-height:1.03}
+.hero-card p{margin:0;max-width:64ch;color:rgba(255,255,255,.82);line-height:1.7}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn{border:none;border-radius:16px;padding:14px 18px;font-weight:800}
+.btn.primary{background:linear-gradient(135deg,var(--primary),#7087ff);color:#fff;box-shadow:0 12px 30px rgba(75,99,255,.28)}
+.btn.primary:hover{transform:translateY(-1px)}
+.btn.secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.1)}
+.hero-side{display:grid;gap:16px}
+.small-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:22px}
+.small-panel h3{margin:0 0 8px;font-size:1.05rem}
+.small-panel p{margin:0;color:var(--muted);line-height:1.6}
+.tag-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.tag{background:var(--panel-soft);border:1px solid var(--line);padding:10px 12px;border-radius:999px;font-size:.92rem;font-weight:700;color:#415170}
+.lesson-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.lesson-card{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:22px;display:grid;gap:14px}
+.lesson-card .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.lesson-card h3{margin:0 0 4px;font-size:1.16rem}
+.lesson-card p{margin:0;color:var(--muted);line-height:1.55}
+.badge{display:inline-flex;align-items:center;font-size:.78rem;font-weight:800;letter-spacing:.04em;color:#3d57d7;background:var(--primary-soft);border:1px solid #dfe6ff;border-radius:999px;padding:7px 10px;white-space:nowrap}
+.lesson-meta{display:flex;flex-wrap:wrap;gap:10px}
+.meta-pill{font-size:.84rem;color:#42516d;background:#f8fbff;border:1px solid var(--line);border-radius:999px;padding:8px 10px}
+.lesson-actions{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.start-btn{border:none;background:#13233f;color:#fff;border-radius:14px;padding:12px 14px;font-weight:800}
+.start-btn:hover{background:#1c3259}
+.score-note{color:#5f708d;font-size:.92rem;font-weight:700}
+.lesson-view{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;align-items:start}
+.side{position:sticky;top:20px;background:linear-gradient(180deg,rgba(10,18,36,.98),rgba(20,34,66,.98)),radial-gradient(circle at top right, rgba(103,125,255,.18), transparent 40%);border-radius:30px;color:#fff;padding:22px;box-shadow:0 24px 70px rgba(6,16,34,.25)}
+.side h2{margin:0 0 6px;font-size:1.34rem}
+.side p{margin:0;color:rgba(255,255,255,.78);line-height:1.6}
+.steps{display:grid;gap:10px;margin-top:20px}
+.step{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+.step.active{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}
+.step.done{background:rgba(16,130,82,.18);border-color:rgba(121,223,177,.22)}
+.step-label{font-weight:800}
+.step small{color:#d7e1ff}
+.side .backlink{display:inline-flex;margin-top:18px;color:#d8e2ff;text-decoration:none;font-weight:800}
+.main-panel{background:#fff;border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);min-height:680px;overflow:hidden}
+.stage-header{padding:24px 26px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff,#f9fbff)}
+.stage-header .micro{display:inline-flex;background:var(--primary-soft);color:#3f56d6;border:1px solid #dfe6ff;border-radius:999px;padding:7px 10px;font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px}
+.stage-header h3{margin:0 0 10px;font-size:1.48rem}
+.stage-header p{margin:0;color:var(--muted);line-height:1.65;max-width:74ch}
+.stage-body{padding:24px 26px 28px;display:grid;gap:18px}
+.info-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}
+.info-card h4{margin:0 0 12px;font-size:1rem}
+.info-card p,.info-card li{color:#344663;line-height:1.7}
+.info-card ul,.info-card ol{margin:0;padding-left:20px}
+.pattern{background:var(--panel-soft);border:1px solid var(--line);border-radius:18px;padding:16px 18px;line-height:1.7}
+.example-list{display:grid;gap:12px}
+.example{background:#f9fbff;border:1px solid var(--line);border-radius:16px;padding:16px}
+.example .de{font-weight:700;line-height:1.7}
+.example .en{margin-top:6px;color:#5f708d;font-size:.96rem}
+.tip-box{background:var(--amber-soft);border:1px solid #f3dfb4;border-radius:18px;padding:16px 18px}
+.tip-box h4{margin:0 0 10px}
+.tip-box ul{margin:0;padding-left:20px;color:#5b4927;line-height:1.7}
+.memory-box{background:var(--green-soft);border:1px solid #cfeedd;border-radius:18px;padding:16px 18px;color:#1f5b3e}
+.question-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}
+.question-card h4{margin:0 0 12px;font-size:1.08rem}
+.option-list{display:grid;gap:10px}
+.option-btn{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px 14px;color:var(--text);font-weight:700}
+.option-btn:hover{border-color:#c5d4ff;background:#f8fbff}
+.option-btn.correct{background:var(--green-soft);border-color:#bde7d2;color:#16613f}
+.option-btn.wrong{background:var(--red-soft);border-color:#f0cbc6;color:#7d312a}
+.input-wrap{display:grid;gap:12px}
+.text-input, textarea{width:100%;border:1px solid var(--line-strong);background:#fff;border-radius:16px;padding:14px 14px;color:var(--text)}
+textarea{min-height:160px;resize:vertical;line-height:1.65}
+.feedback{border-radius:18px;padding:16px 18px;line-height:1.7}
+.feedback.good{background:var(--green-soft);border:1px solid #cdeedb;color:#1f5b3e}
+.feedback.bad{background:var(--red-soft);border:1px solid #f0ceca;color:#7d312a}
+.nav-row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.btn.outline{background:#fff;color:#1a2d4d;border:1px solid var(--line)}
+.btn.ghost{background:transparent;color:#4b63ff;border:1px solid #dbe3ff}
+.btn.next{background:#13233f;color:#fff}
+.btn.next:hover{background:#1b3157}
+.progress-bar{height:10px;background:#edf2fa;border-radius:999px;overflow:hidden}
+.progress-bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),#7690ff)}
+.result-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.result-card{background:#f9fbff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.result-card .micro{font-size:.78rem;color:#5f708d;text-transform:uppercase;letter-spacing:.05em;font-weight:800}
+.result-card strong{display:block;margin-top:8px;font-size:1.25rem}
+.success-answer{background:linear-gradient(180deg,#f8fbff,#eef4ff);border:1px solid #dbe4ff;border-radius:20px;padding:18px;line-height:1.75}
+.mini-checklist{display:grid;gap:10px}
+.check-pill{display:flex;gap:10px;align-items:flex-start;background:#f9fbff;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.check-pill b{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:999px;background:#13233f;color:#fff;font-size:.78rem}
+@media (max-width:1120px){
+  .hero,.lesson-view,.info-grid{grid-template-columns:1fr}
+  .side{position:static}
+}
+@media (max-width:780px){
+  .topbar{flex-direction:column;align-items:flex-start}
+  .lesson-grid{grid-template-columns:1fr}
+  .result-grid{grid-template-columns:1fr}
+  .shell{padding:18px 14px 40px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">DE</div>
+      <div class="brand-text">
+        <h1>A-Level German Grammar Trainer</h1>
+        <p>Learn the grammar from scratch, check it quickly, practise it carefully, then use it in your own German.</p>
+      </div>
+    </div>
+    <div class="progress-pill">
+      <div class="progress-ring" id="ring"><span id="ringPct">0%</span></div>
+      <div>
+        <div style="font-size:.82rem;color:#60708c;font-weight:800;text-transform:uppercase;letter-spacing:.05em;">Course progress</div>
+        <div style="font-weight:800"><span id="lessonsComplete">0 / 10</span> lessons complete</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="homeView">
+    <div class="hero">
+      <div class="hero-card">
+        <div class="eyebrow"><i></i> Student-facing grammar revision</div>
+        <h2>Build advanced A-Level German grammar with clear explanations and focused practice.</h2>
+        <p>Each lesson teaches one grammar point in simple English first. You get step-by-step teaching, hinge questions, controlled practice and a short writing task with accuracy feedback.</p>
+        <div class="hero-actions">
+          <button class="btn primary" id="resumeBtn">Start or continue</button>
+          <button class="btn secondary" id="resetBtn">Reset progress</button>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="small-panel">
+          <h3>How the trainer works</h3>
+          <p>Move through one lesson at a time: <strong>Learn → Check → Practise → Apply</strong>. The teaching stage is designed for first-time learning, not just quick revision.</p>
+          <div class="tag-row">
+            <span class="tag">Clear English teaching</span>
+            <span class="tag">Hinge checks</span>
+            <span class="tag">Practice tasks</span>
+            <span class="tag">Writing feedback</span>
+          </div>
+        </div>
+        <div class="small-panel">
+          <h3>Your average score</h3>
+          <p id="avgScore" style="font-size:1.7rem;font-weight:900;color:#13233f;margin-top:6px;">0%</p>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-grid" id="cards"></div>
+  </section>
+
+  <section id="lessonView" class="hidden">
+    <div class="lesson-view">
+      <aside class="side">
+        <h2 id="sideTitle"></h2>
+        <p id="sideSubtitle"></p>
+        <div class="steps" id="steps"></div>
+        <div style="margin-top:18px;">
+          <div class="progress-bar"><span id="progressFill"></span></div>
+        </div>
+        <a class="backlink" href="javascript:void(0)" onclick="goHome()">← Back to all lessons</a>
+      </aside>
+
+      <main class="main-panel">
+        <div class="stage-header">
+          <div class="micro" id="stageMicro"></div>
+          <h3 id="stageTitle"></h3>
+          <p id="stageIntro"></p>
+        </div>
+        <div class="stage-body" id="stageBody"></div>
+      </main>
+    </div>
+  </section>
+</div>
+<script>
+const lessons = [{"id": "subordinate", "title": "Subordinate clauses", "subtitle": "weil · dass · obwohl · wenn", "hook": "Use these when you want to give a reason, add a contrast, or say what happens if / when something happens.", "when": ["to give a reason: <strong>weil</strong> = because", "to report an idea or opinion: <strong>dass</strong> = that", "to add contrast: <strong>obwohl</strong> = although", "to talk about a condition or repeated situation: <strong>wenn</strong> = if / whenever"], "steps": ["Start with your main clause.", "Add a comma.", "Add the subordinating word, for example <strong>weil</strong> or <strong>dass</strong>.", "Put the subject next.", "Put the finite verb at the very end of the subordinate clause."], "pattern": "<strong>Main clause</strong> + comma + <strong>weil / dass / obwohl / wenn</strong> + subject + other information + <strong>finite verb</strong>.", "examples": [["Ich bleibe zu Hause, <strong>weil ich krank bin</strong>.", "I am staying at home because I am ill."], ["Viele Jugendliche sagen, <strong>dass soziale Medien nützlich sind</strong>.", "Many young people say that social media are useful."], ["<strong>Obwohl Berlin teuer ist</strong>, möchten viele Studierende dort wohnen.", "Although Berlin is expensive, many students want to live there."], ["<strong>Wenn ich Zeit habe</strong>, höre ich deutsche Podcasts.", "If I have time, I listen to German podcasts."]], "watchouts": ["Do <strong>not</strong> keep the verb in second place after <strong>weil</strong> or <strong>dass</strong>.", "The whole subordinate clause counts as one unit. If it comes first, the verb in the next main clause still comes second: <em>Obwohl Berlin teuer ist, wohnen viele junge Leute dort.</em>", "Remember that separable verbs also go to the end as one whole verb idea: <em>..., weil ich früh <strong>aufstehe</strong>.</em>"], "memory": "<strong>Subordinating word = push the finite verb to the end.</strong>", "hinge": [{"q": "Which sentence is correct?", "options": ["Ich bleibe zu Hause, weil ich bin krank.", "Ich bleibe zu Hause, weil ich krank bin.", "Ich bleibe zu Hause, weil bin ich krank."], "answer": 1, "explain": "After <em>weil</em>, the finite verb goes to the end: <em>krank bin</em>."}, {"q": "Choose the correct order.", "options": ["..., dass viele Jugendliche Politik wichtig finden.", "..., dass viele Jugendliche finden Politik wichtig.", "..., dass finden viele Jugendliche Politik wichtig."], "answer": 0, "explain": "In the subordinate clause, the finite verb <em>finden</em> goes to the end."}, {"q": "What happens if the subordinate clause comes first?", "options": ["The main clause verb still comes second.", "The main clause verb goes to the end as well.", "You do not need a comma."], "answer": 0, "explain": "The fronted subordinate clause counts as one chunk, so the main clause verb still stays in second position."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Viele Eltern machen sich Sorgen, weil ...", "options": ["ihre Kinder zu viel Zeit online verbringen", "verbringen ihre Kinder zu viel Zeit online", "ihre Kinder verbringen zu viel Zeit online"], "answer": 0, "explain": "After <em>weil</em>, the verb goes to the end: <em>verbringen</em>."}, {"type": "text", "q": "Put the words in the correct order: obwohl / viele Menschen / soziale Medien / kritisieren / sie / täglich / nutzen", "answer": "obwohl viele Menschen soziale Medien kritisieren, nutzen sie sie täglich", "alts": ["obwohl viele menschen soziale medien kritisieren, nutzen sie sie täglich"], "explain": "The subordinate clause is <em>obwohl viele Menschen soziale Medien kritisieren</em>."}, {"type": "mcq", "q": "Which option fits? Berlin ist beliebt, obwohl ...", "options": ["Wohnungen teuer sind.", "sind Wohnungen teuer.", "Wohnungen sind teuer."], "answer": 0, "explain": "After <em>obwohl</em>, the verb goes to the end."}, {"type": "text", "q": "Translate into German: Many young people think that school is stressful.", "answer": "Viele Jugendliche denken, dass die Schule stressig ist.", "alts": ["viele jugendliche denken, dass die schule stressig ist"], "explain": "Use <em>dass</em> and send <em>ist</em> to the end."}, {"type": "mcq", "q": "Choose the best ending: Wenn ich am Wochenende frei habe, ...", "options": ["treffe ich meine Freunde.", "ich treffe meine Freunde.", "meine Freunde treffe ich."], "answer": 0, "explain": "After a fronted subordinate clause, the main clause verb still comes second: <em>treffe ich</em>."}], "apply": "Write <strong>three short German sentences</strong> about school, family or technology. Use <strong>two different subordinating conjunctions</strong>.", "successModel": "Obwohl soziale Netzwerke nützlich sein können, finde ich sie manchmal stressig. Viele Jugendliche sagen, dass sie ohne ihr Handy nicht leben könnten. Wenn ich lernen muss, lege ich mein Handy in ein anderes Zimmer."}, {"id": "wordorder", "title": "Main clause word order", "subtitle": "verb second · inversion · nicht", "hook": "German likes a clear sentence frame. Once you understand verb second, your speaking and writing become much more natural.", "when": ["in almost every normal statement in German", "when you start with a time phrase or opinion phrase", "when you want to place <strong>nicht</strong> naturally", "when you want your sentence to sound more advanced, not like word-for-word English"], "steps": ["Choose one idea to go first, for example a time phrase or place phrase.", "Put the finite verb in second position.", "Put the subject after the verb if something else came first.", "Add the rest of the sentence.", "Place <strong>nicht</strong> before the part you are negating, often near the end."], "pattern": "<strong>One chunk</strong> + <strong>finite verb</strong> + subject + rest. Example: <em>Am Wochenende</em> <strong>gehe</strong> <em>ich</em> oft ins Kino.", "examples": [["Heute <strong>lerne</strong> ich zu Hause.", "Today I am studying at home."], ["In Berlin <strong>leben</strong> viele Studierende.", "Many students live in Berlin."], ["Ich benutze soziale Medien <strong>nicht jeden Tag</strong>.", "I do not use social media every day."], ["Meiner Meinung nach <strong>sollten</strong> junge Leute mehr schlafen.", "In my opinion, young people should sleep more."]], "watchouts": ["Do not say <em>Heute ich lerne</em>. German keeps the verb in second position: <em>Heute lerne ich</em>.", "Do not put <strong>nicht</strong> randomly after the subject. Think about what you are negating.", "A long first phrase still counts as only one chunk: <em>In meiner Freizeit am Wochenende gehe ich ...</em>"], "memory": "<strong>Whatever comes first, the finite verb still wants position 2.</strong>", "hinge": [{"q": "Which sentence is correct?", "options": ["Heute ich lerne Deutsch.", "Heute lerne ich Deutsch.", "Heute ich Deutsch lerne."], "answer": 1, "explain": "The verb must stay in second place: <em>Heute lerne ich ...</em>"}, {"q": "Choose the most natural sentence.", "options": ["Ich nicht benutze TikTok oft.", "Ich benutze nicht TikTok oft.", "Ich benutze TikTok nicht oft."], "answer": 2, "explain": "<em>Nicht</em> usually comes before the part you are negating and often near the end."}, {"q": "What happens after a time phrase at the start?", "options": ["The verb still stays second.", "The verb moves to the end.", "Nothing changes."], "answer": 0, "explain": "German still keeps the finite verb in position 2."}], "practice": [{"type": "mcq", "q": "Choose the correct sentence.", "options": ["Morgen wir fahren nach Hamburg.", "Morgen fahren wir nach Hamburg.", "Morgen wir nach Hamburg fahren."], "answer": 1, "explain": "After <em>Morgen</em>, the verb still comes second."}, {"type": "text", "q": "Translate into German: In my opinion, young people do not watch traditional TV very often.", "answer": "Meiner Meinung nach sehen junge Leute traditionelles Fernsehen nicht sehr oft.", "alts": ["meiner meinung nach sehen junge leute traditionelles fernsehen nicht sehr oft"], "explain": "Front the opinion phrase, keep the verb second, and place <em>nicht</em> naturally."}, {"type": "mcq", "q": "Where is the best place for <em>nicht</em>? Ich gehe ... ins Kino.", "options": ["nicht heute", "heute nicht", "nicht"], "answer": 1, "explain": "<em>Ich gehe heute nicht ins Kino</em> means I am not going today."}, {"type": "text", "q": "Rebuild the sentence: am Wochenende / viele Jugendliche / online / sind", "answer": "Am Wochenende sind viele Jugendliche online.", "alts": ["am wochenende sind viele jugendliche online"], "explain": "Time phrase first, verb second, subject next."}, {"type": "mcq", "q": "Which sentence sounds best?", "options": ["In Deutschland junge Leute nutzen oft WhatsApp.", "In Deutschland nutzen junge Leute oft WhatsApp.", "In Deutschland oft junge Leute nutzen WhatsApp."], "answer": 1, "explain": "Fronted place phrase + verb second + subject."}], "apply": "Write <strong>three German sentences</strong> about your routine or habits. Start each sentence with a different phrase, for example <em>Am Wochenende</em>, <em>Normalerweise</em> or <em>In meiner Stadt</em>.", "successModel": "Am Wochenende treffe ich oft meine Freunde in der Stadt. Normalerweise benutze ich mein Handy nicht während des Abendessens. In meiner Schule lernen viele Schülerinnen und Schüler gern mit digitalen Materialien."}, {"id": "relative", "title": "Relative clauses", "subtitle": "who · which · that", "hook": "Relative clauses help you join ideas together so your German sounds more mature and less like a list of short sentences.", "when": ["to describe a person or thing in more detail", "to avoid repeating the same noun again and again", "to add extra information in speaking and essays", "to sound more analytical and less basic"], "steps": ["Start with the noun you want to describe.", "Add a comma.", "Choose the relative pronoun that matches the noun and the job it does in the clause.", "Finish the clause and put the finite verb at the end."], "pattern": "Noun + comma + <strong>relative pronoun</strong> + rest of clause + <strong>finite verb</strong>.", "examples": [["Das ist ein Film, <strong>der</strong> mich wirklich beeindruckt hat.", "That is a film which really impressed me."], ["Berlin ist eine Stadt, <strong>die</strong> viele Touristen anzieht.", "Berlin is a city that attracts many tourists."], ["Das ist ein Thema, <strong>über das</strong> man oft spricht.", "That is a topic which people often talk about."], ["Die Leute, <strong>mit denen</strong> ich spreche, sind oft sehr hilfsbereit.", "The people I speak with are often very helpful."]], "watchouts": ["The relative pronoun is not chosen only by translation. It depends on <strong>gender</strong>, <strong>number</strong> and <strong>case</strong>.", "The verb still goes to the end because the relative clause is a subordinate clause.", "Prepositions stay with the relative pronoun: <em>über das</em>, <em>mit denen</em>, <em>in der</em>."], "memory": "<strong>Relative clause = a mini description clause with the verb at the end.</strong>", "hinge": [{"q": "Choose the correct option: Das ist der Lehrer, ... uns geholfen hat.", "options": ["der", "den", "dem"], "answer": 0, "explain": "The pronoun is the subject of the clause, so nominative masculine <em>der</em> is needed."}, {"q": "Which sentence is correct?", "options": ["Berlin ist eine Stadt, die ist sehr vielfältig.", "Berlin ist eine Stadt, die sehr vielfältig ist.", "Berlin ist eine Stadt, ist sehr vielfältig."], "answer": 1, "explain": "The relative clause needs the verb at the end: <em>die sehr vielfältig ist</em>."}, {"q": "What is the job of a relative clause?", "options": ["To ask a question", "To add extra information about a noun", "To form the past tense"], "answer": 1, "explain": "It gives extra detail about a person, thing or idea."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Das Buch, ... ich gestern gelesen habe, war spannend.", "options": ["der", "das", "den"], "answer": 2, "explain": "You read the book, so the relative pronoun is accusative masculine: <em>den</em>."}, {"type": "text", "q": "Combine the ideas in German: Berlin ist eine Stadt. Berlin ist weltweit bekannt.", "answer": "Berlin ist eine Stadt, die weltweit bekannt ist.", "alts": ["berlin ist eine stadt, die weltweit bekannt ist"], "explain": "Use a relative clause to join the two ideas naturally."}, {"type": "mcq", "q": "Choose the correct phrase: die Jugendlichen, ... wir sprechen", "options": ["die", "über die", "den"], "answer": 1, "explain": "After <em>über</em> you need the accusative: <em>über die</em>."}, {"type": "text", "q": "Translate into German: Social media are a topic that worries many parents.", "answer": "Soziale Medien sind ein Thema, das viele Eltern beunruhigt.", "alts": ["soziale medien sind ein thema, das viele eltern beunruhigt"], "explain": "Use <em>das</em> because <em>Thema</em> is neuter and the pronoun is the subject."}, {"type": "mcq", "q": "Which option is best? Die Freunde, mit ... ich oft lerne, sind motiviert.", "options": ["denen", "die", "der"], "answer": 0, "explain": "After <em>mit</em> you need the dative plural: <em>mit denen</em>."}], "apply": "Write <strong>three German sentences</strong> about a city, an issue or a person. Use at least <strong>one relative clause</strong>.", "successModel": "Berlin ist eine Stadt, die mich wegen ihrer Geschichte fasziniert. Soziale Medien sind ein Thema, über das viele Jugendliche jeden Tag sprechen. Ich habe eine Lehrerin, die uns immer ermutigt, komplexere Strukturen zu benutzen."}, {"id": "infinitive", "title": "Infinitive structures", "subtitle": "um ... zu · ohne ... zu · lassen", "hook": "These structures let you say things like 'in order to do', 'without doing', and 'can be done' in a compact, high-level way.", "when": ["to explain purpose: <strong>um ... zu</strong> = in order to", "to say 'without doing': <strong>ohne ... zu</strong>", "to build a neat two-verb structure", "to make your German sound more concise and advanced"], "steps": ["Decide whether you need purpose, absence, or a 'can be done' idea.", "Use <strong>um ... zu</strong> for purpose.", "Use <strong>ohne ... zu</strong> for 'without doing'.", "Use <strong>sich lassen + infinitive</strong> to say that something can be done."], "pattern": "<strong>um ... zu + infinitive</strong> / <strong>ohne ... zu + infinitive</strong> / <strong>sich lassen + infinitive</strong>", "examples": [["Viele Jugendliche benutzen Apps, <strong>um schneller zu lernen</strong>.", "Many young people use apps in order to learn faster."], ["Er geht aus dem Haus, <strong>ohne sein Handy mitzunehmen</strong>.", "He leaves the house without taking his phone with him."], ["Das Problem <strong>lässt sich</strong> nicht leicht <strong>lösen</strong>.", "The problem cannot be solved easily."], ["Ich versuche, jeden Tag ein bisschen Deutsch <strong>zu lesen</strong>.", "I try to read a little German every day."]], "watchouts": ["Do not forget <strong>zu</strong> in <em>um ... zu</em> and <em>ohne ... zu</em> structures.", "In separable verbs, <strong>zu</strong> goes inside the infinitive: <em>mitzunehmen</em>, <em>anzufangen</em>.", "Do not use <em>um ... zu</em> if the subject changes and you need a full clause instead."], "memory": "<strong>Purpose? Use <em>um ... zu</em>. No action? Use <em>ohne ... zu</em>.</strong>", "hinge": [{"q": "Which structure means 'in order to do'?", "options": ["ohne ... zu", "um ... zu", "als ob"], "answer": 1, "explain": "<em>Um ... zu</em> expresses purpose."}, {"q": "Choose the correct sentence.", "options": ["Ich lerne viel, um die Prüfung zu bestehen.", "Ich lerne viel, um bestehen die Prüfung.", "Ich lerne viel, um zu bestehen die Prüfung."], "answer": 0, "explain": "The infinitive stays at the end: <em>..., um die Prüfung zu bestehen</em>."}, {"q": "What does <em>Das Problem lässt sich lösen</em> mean?", "options": ["The problem solves itself now.", "The problem can be solved.", "The problem was solved."], "answer": 1, "explain": "<em>Sich lassen + infinitive</em> often means 'can be done'."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Viele Jugendliche machen Sport, ... fit zu bleiben.", "options": ["um", "ohne", "statt"], "answer": 0, "explain": "Purpose = <em>um ... zu</em>."}, {"type": "text", "q": "Translate into German: She left without saying goodbye.", "answer": "Sie ist gegangen, ohne sich zu verabschieden.", "alts": ["sie ist gegangen, ohne sich zu verabschieden"], "explain": "Use <em>ohne ... zu</em> plus infinitive."}, {"type": "mcq", "q": "Choose the best option: Das Problem ... nicht leicht lösen.", "options": ["lässt sich", "ist", "wird"], "answer": 0, "explain": "<em>Sich lassen + infinitive</em> expresses 'can be solved'."}, {"type": "text", "q": "Complete in German: Ich benutze Podcasts, um ...", "answer": "Ich benutze Podcasts, um mein Hörverstehen zu verbessern.", "alts": ["ich benutze podcasts, um mein hörverstehen zu verbessern"], "explain": "A good answer uses <em>um ... zu</em> plus an infinitive at the end."}, {"type": "mcq", "q": "Which sentence is correct?", "options": ["Ohne mein Handy zu benutzen, ich fühle mich ruhig.", "Ich fühle mich ruhig, ohne mein Handy zu benutzen.", "Ich fühle mich ruhig, ohne zu benutzen mein Handy."], "answer": 1, "explain": "The <em>ohne ... zu</em> structure fits neatly after the main clause."}], "apply": "Write <strong>three German sentences</strong> about studying, technology or healthy living. Use <strong>at least two infinitive structures</strong>.", "successModel": "Ich benutze digitale Karteikarten, um neuen Wortschatz regelmäßig zu wiederholen. Ohne mein Handy auszuschalten, kann ich mich kaum konzentrieren. Viele Probleme im Schulalltag lassen sich durch eine bessere Organisation leichter lösen."}, {"id": "prepositions", "title": "Prepositions and cases", "subtitle": "fixed case · two-way prepositions · da-compounds", "hook": "A lot of German accuracy comes down to knowing which case a preposition takes and spotting whether the sentence shows movement or location.", "when": ["after fixed-case prepositions such as <strong>mit</strong>, <strong>für</strong>, <strong>ohne</strong>, <strong>wegen</strong>", "after two-way prepositions such as <strong>in</strong>, <strong>an</strong>, <strong>auf</strong>", "when you want to replace a repeated prepositional phrase with <strong>darauf</strong>, <strong>darüber</strong>, <strong>damit</strong>"], "steps": ["Learn which prepositions always take one case.", "For two-way prepositions, ask: is there movement to a destination or location in a place?", "Use accusative for movement to somewhere; use dative for location.", "Use a <strong>da-</strong> compound when referring back to a thing, idea or situation."], "pattern": "fixed-case preposition + correct case / two-way preposition + <strong>movement = accusative</strong>, <strong>location = dative</strong>", "examples": [["Ich spreche <strong>mit meinem Freund</strong>.", "I am speaking with my friend."], ["Wir gehen <strong>in die Stadt</strong>.", "We are going into the city."], ["Wir sind <strong>in der Stadt</strong>.", "We are in the city."], ["Viele Jugendliche denken über die Zukunft nach. Sie machen sich oft <strong>darüber</strong> Sorgen.", "Many young people think about the future. They often worry about it."]], "watchouts": ["Do not guess the case from English. Learn the preposition patterns directly in German.", "With two-way prepositions, focus on the idea: destination or position?", "Use <strong>da-</strong> compounds for things, not usually for people."], "memory": "<strong>Movement? Accusative. Location? Dative.</strong>", "hinge": [{"q": "Which case usually follows <em>mit</em>?", "options": ["nominative", "accusative", "dative"], "answer": 2, "explain": "<em>Mit</em> is a dative preposition."}, {"q": "Choose the correct phrase.", "options": ["in die Schule", "in der Schule"], "answer": 0, "explain": "This form is used for movement to school."}, {"q": "Which option refers back to an idea?", "options": ["mit ihm", "darüber", "ihn"], "answer": 1, "explain": "<em>Darüber</em> refers back to a thing or idea introduced earlier."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Ich lerne oft ... meinen Freunden.", "options": ["mit", "für", "durch"], "answer": 0, "explain": "<em>Mit</em> takes the dative: <em>mit meinen Freunden</em>."}, {"type": "text", "q": "Translate into German: We are going into the classroom.", "answer": "Wir gehen in das Klassenzimmer.", "alts": ["wir gehen in das klassenzimmer", "wir gehen ins klassenzimmer"], "explain": "Movement into a place = accusative after <em>in</em>."}, {"type": "mcq", "q": "Choose the correct sentence.", "options": ["Das Handy liegt auf den Tisch.", "Das Handy liegt auf dem Tisch.", "Das Handy liegt auf den Tische."], "answer": 1, "explain": "Location on a surface = dative after <em>auf</em>."}, {"type": "text", "q": "Replace the underlined phrase with a da-compound: Viele Jugendliche sprechen über das Problem. -> Viele Jugendliche sprechen ...", "answer": "Viele Jugendliche sprechen darüber.", "alts": ["viele jugendliche sprechen darüber"], "explain": "Use <em>darüber</em> to refer back to <em>über das Problem</em>."}, {"type": "mcq", "q": "Which phrase is correct for location?", "options": ["an die Wand", "an der Wand", "an den Wand"], "answer": 1, "explain": "A picture is <em>an der Wand</em> when it is already there."}], "apply": "Write <strong>three German sentences</strong> about school, your town or social issues. Use <strong>at least two different prepositions</strong> accurately.", "successModel": "In meiner Stadt gibt es viele Angebote für Jugendliche. Am Wochenende gehe ich oft mit meinen Freunden in die Bibliothek, um zu lernen. Viele Leute sprechen über die Zukunft, aber nicht alle machen sich wirklich darüber Gedanken."}, {"id": "passivewerden", "title": "Passive with werden", "subtitle": "focus on the action", "hook": "Use the passive when the action matters more than the person doing it. This is very useful in essays and topic discussions.", "when": ["when you want to focus on what happens, not on who does it", "when the agent is unknown, obvious or unimportant", "in factual, formal or analytical German", "when you want to sound less repetitive than always using 'man'"], "steps": ["Start with the thing that receives the action.", "Choose the correct form of <strong>werden</strong>.", "Add the past participle at the end.", "Add the person doing the action only if you really need it."], "pattern": "subject receiving the action + <strong>werden</strong> + past participle", "examples": [["Viele neue Wohnungen <strong>werden gebaut</strong>.", "Many new flats are being built."], ["In der Schule <strong>wird viel über Stress gesprochen</strong>.", "A lot is said about stress at school."], ["Die Regeln <strong>wurden geändert</strong>.", "The rules were changed."], ["Das Projekt <strong>wird von der Stadt unterstützt</strong>.", "The project is supported by the city."]], "watchouts": ["Do not confuse passive <strong>werden</strong> with future-time <strong>werden</strong>.", "The past participle stays at the end.", "If you mention the agent, use <strong>von</strong> in many normal cases: <em>von der Regierung</em>."], "memory": "<strong>Passive with werden = the action is happening / happened.</strong>", "hinge": [{"q": "What is the passive used for?", "options": ["To focus on the action", "To form the comparative", "To ask a question"], "answer": 0, "explain": "The passive focuses on what is done rather than who does it."}, {"q": "Which sentence is passive?", "options": ["Viele Leute kaufen Bücher.", "Viele Bücher werden gekauft.", "Viele Bücher kaufen Leute."], "answer": 1, "explain": "<em>Werden + past participle</em> creates the passive."}, {"q": "Choose the correct form.", "options": ["Das Haus wird gebaut.", "Das Haus gebaut wird.", "Das Haus ist bauen."], "answer": 0, "explain": "Passive with <em>werden</em> uses <em>wird gebaut</em>."}], "practice": [{"type": "mcq", "q": "Complete the sentence: In vielen Schulen ... Tablets benutzt.", "options": ["wird", "werden", "wurden"], "answer": 1, "explain": "Plural subject <em>Tablets</em> needs <em>werden benutzt</em>."}, {"type": "text", "q": "Change into the passive: Die Stadt unterstützt das Projekt.", "answer": "Das Projekt wird von der Stadt unterstützt.", "alts": ["das projekt wird von der stadt unterstützt"], "explain": "Move the object into subject position and use <em>wird unterstützt</em>."}, {"type": "mcq", "q": "Which sentence sounds most natural?", "options": ["Über Integration wird oft gesprochen.", "Über Integration spricht oft.", "Wird über Integration oft gesprochen."], "answer": 0, "explain": "This is the natural impersonal passive."}, {"type": "text", "q": "Translate into German: New laws are introduced every year.", "answer": "Neue Gesetze werden jedes Jahr eingeführt.", "alts": ["neue gesetze werden jedes jahr eingeführt"], "explain": "Use plural passive: <em>werden eingeführt</em>."}, {"type": "mcq", "q": "Choose the correct past passive.", "options": ["Die Regeln wurden geändert.", "Die Regeln werden geändert.", "Die Regeln sind geändert."], "answer": 0, "explain": "Past passive with <em>werden</em> is <em>wurden geändert</em>."}], "apply": "Write <strong>three German sentences</strong> about social change, school rules or public life. Use the <strong>passive with werden</strong> at least twice.", "successModel": "In vielen Städten werden jedes Jahr neue Radwege gebaut. In meiner Schule werden digitale Geräte heute viel häufiger benutzt als früher. Über die psychische Gesundheit junger Menschen wird inzwischen offener gesprochen."}, {"id": "passivesein", "title": "Passive with sein", "subtitle": "focus on the result or state", "hook": "This structure is useful when you want to describe the state after an action, not the action taking place at that moment.", "when": ["when you mean 'is done', 'is finished', 'is closed', 'is prepared'", "when the result matters more than the process", "to contrast with <strong>werden</strong> passive", "in description and analysis"], "steps": ["Think: am I describing an action happening now, or the result after it?", "If it is the result or state, use <strong>sein + past participle</strong>.", "Keep the participle at the end or near the end as part of the predicate.", "Use <strong>werden</strong> instead if the action itself is happening."], "pattern": "subject + <strong>sein</strong> + past participle", "examples": [["Die Tür <strong>ist geschlossen</strong>.", "The door is closed."], ["Die Ausstellung <strong>ist gut organisiert</strong>.", "The exhibition is well organised."], ["Das Problem <strong>ist noch nicht gelöst</strong>.", "The problem is not yet solved."], ["Die Wohnungen <strong>sind bereits gebaut</strong>.", "The flats are already built."]], "watchouts": ["Do not use <strong>sein</strong> if you mean the action is being done right now.", "Some forms look like adjectives, but in this lesson the key idea is still the result of an action.", "Compare: <em>Das Haus wird gebaut</em> = it is being built. <em>Das Haus ist gebaut</em> = it is built / finished."], "memory": "<strong>Werden = action. Sein = resulting state.</strong>", "hinge": [{"q": "Which sentence describes a state, not an action in progress?", "options": ["Die Schule wird renoviert.", "Die Schule ist renoviert.", "Die Schule renoviert."], "answer": 1, "explain": "<em>Ist renoviert</em> focuses on the result."}, {"q": "Which pair is correct?", "options": ["wird geöffnet = is open", "ist geöffnet = is open", "ist geöffnet = is being opened"], "answer": 1, "explain": "<em>Ist geöffnet</em> describes the state of being open."}, {"q": "What is the main difference between <em>wird gebaut</em> and <em>ist gebaut</em>?", "options": ["No real difference", "The first is action, the second is result/state", "The second is future tense"], "answer": 1, "explain": "That is the key distinction."}], "practice": [{"type": "mcq", "q": "Choose the best sentence for a finished result.", "options": ["Die Brücke wird repariert.", "Die Brücke ist repariert.", "Die Brücke repariert."], "answer": 1, "explain": "<em>Ist repariert</em> describes the result."}, {"type": "text", "q": "Translate into German: The museum is closed today.", "answer": "Das Museum ist heute geschlossen.", "alts": ["das museum ist heute geschlossen"], "explain": "This is a state, so use <em>ist geschlossen</em>."}, {"type": "mcq", "q": "Which sentence means 'the work is already done'?", "options": ["Die Arbeit wird schon gemacht.", "Die Arbeit ist schon gemacht.", "Die Arbeit machte schon."], "answer": 1, "explain": "<em>Ist ... gemacht</em> focuses on the completed state."}, {"type": "text", "q": "Write the German for: The project is well prepared.", "answer": "Das Projekt ist gut vorbereitet.", "alts": ["das projekt ist gut vorbereitet"], "explain": "Use <em>sein + past participle</em>."}, {"type": "mcq", "q": "Choose the correct contrast.", "options": ["Die Straße wird gesperrt. Jetzt ist sie gesperrt.", "Die Straße ist gesperrt. Jetzt wird sie gesperrt.", "Die Straße gesperrt wird. Jetzt ist sie."], "answer": 0, "explain": "The first clause shows the action. The second shows the resulting state."}], "apply": "Write <strong>three German sentences</strong> about buildings, projects or school life. Use at least <strong>one result/state passive</strong> with <strong>sein</strong>.", "successModel": "Unser neues Computerzimmer ist endlich fertig eingerichtet. Die Regeln für die Prüfung sind inzwischen klar formuliert. Viele öffentliche Gebäude sind heute besser an die Bedürfnisse junger Menschen angepasst."}, {"id": "conditional", "title": "Conditional and conditional perfect", "subtitle": "würde · hätte / wäre", "hook": "These forms help you talk about hypothetical ideas: what would happen and what would have happened.", "when": ["to say what you would do now or in general", "to imagine a different situation", "to evaluate past decisions: what would have happened", "to sound analytical in discussions and essays"], "steps": ["Use <strong>würde + infinitive</strong> for 'would do'.", "Use <strong>hätte / wäre + past participle + infinitive of haben / sein</strong> for 'would have done'.", "Choose <strong>hätte</strong> or <strong>wäre</strong> according to the perfect tense of the verb.", "Use these forms especially after <em>wenn</em> clauses or in opinion sentences."], "pattern": "<strong>würde + infinitive</strong> / <strong>hätte / wäre + past participle + haben/sein</strong>", "examples": [["Ich <strong>würde</strong> gern in Berlin studieren.", "I would like to study in Berlin."], ["Wenn ich mehr Zeit hätte, <strong>würde ich</strong> öfter Sport treiben.", "If I had more time, I would exercise more often."], ["Ohne das Internet <strong>hätten</strong> viele Jugendliche weniger Kontakt <strong>gehabt</strong>.", "Without the internet, many young people would have had less contact."], ["Ohne die Mauer <strong>wäre</strong> die Geschichte Deutschlands anders <strong>verlaufen</strong>.", "Without the Wall, Germany's history would have developed differently."]], "watchouts": ["Do not confuse <strong>würde</strong> with a past tense. It is a hypothetical form here.", "In the conditional perfect, keep the participle and <em>haben/sein</em> at the end.", "Use <strong>wäre</strong> with verbs that normally take <em>sein</em> in the perfect."], "memory": "<strong>Would now = würde. Would have done = hätte / wäre + participle.</strong>", "hinge": [{"q": "Which form means 'would do'?", "options": ["würde + infinitive", "hätte + participle", "sein + participle"], "answer": 0, "explain": "That is the basic conditional form."}, {"q": "Which sentence expresses a past hypothetical idea?", "options": ["Ich würde nach Berlin fahren.", "Ich hätte nach Berlin fahren können.", "Ich fahre nach Berlin."], "answer": 1, "explain": "<em>Hätte ... fahren können</em> refers to a hypothetical past."}, {"q": "Choose the correct sentence.", "options": ["Ohne mein Handy würde ich mehr schlafen.", "Ohne mein Handy ich würde mehr schlafen.", "Ohne mein Handy ich mehr schlafen würde."], "answer": 0, "explain": "The conditional form in the main clause is <em>würde ich mehr schlafen</em> after the fronted phrase."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Wenn ich mehr Geld hätte, ... ich mehr reisen.", "options": ["würde", "hätte", "wäre"], "answer": 0, "explain": "A present hypothetical main clause uses <em>würde</em>."}, {"type": "text", "q": "Translate into German: Without social media, many young people would feel isolated.", "answer": "Ohne soziale Medien würden sich viele Jugendliche isoliert fühlen.", "alts": ["ohne soziale medien würden sich viele jugendliche isoliert fühlen"], "explain": "Use the conditional: <em>würden ... fühlen</em>."}, {"type": "mcq", "q": "Choose the best past hypothetical sentence.", "options": ["Ohne Hilfe hätte er die Prüfung bestanden.", "Ohne Hilfe hätte er die Prüfung nicht bestanden.", "Ohne Hilfe besteht er die Prüfung."], "answer": 1, "explain": "This is the natural way to express 'would not have passed'."}, {"type": "text", "q": "Complete in German: Wenn die Regierung früher reagiert hätte, ...", "answer": "Wenn die Regierung früher reagiert hätte, hätte sich die Situation verbessert.", "alts": ["wenn die regierung früher reagiert hätte, hätte sich die situation verbessert"], "explain": "You need a past hypothetical result."}, {"type": "mcq", "q": "Which sentence is correct?", "options": ["Ohne die Mauer wäre Deutschland anders gewesen.", "Ohne die Mauer Deutschland wäre anders gewesen.", "Ohne die Mauer gewesen wäre Deutschland anders."], "answer": 0, "explain": "The conditional perfect with <em>wäre</em> is correct here."}], "apply": "Write <strong>three German sentences</strong> about society, your future or a past event. Use <strong>one present hypothetical</strong> and <strong>one past hypothetical</strong>.", "successModel": "Wenn ich im Ausland studieren könnte, würde ich am liebsten nach Wien gehen. Ohne soziale Medien würden manche Jugendliche wahrscheinlich weniger Druck spüren. Wenn Politiker früher auf manche Probleme reagiert hätten, hätte sich die Situation für viele Familien verbessern können."}, {"id": "reported1", "title": "Reported speech: the core idea", "subtitle": "reporting what someone said", "hook": "Reported speech lets you summarise somebody else's words in your own sentence instead of quoting them directly.", "when": ["to report a person's opinion in speaking or writing", "to summarise an article, interview or statistic", "to sound analytical rather than conversational", "to avoid writing only your own opinion"], "steps": ["Start with a reporting verb, for example <strong>sagen</strong>, <strong>meinen</strong>, <strong>erklären</strong>.", "Add a <strong>dass</strong> clause if that is the clearest pattern.", "Send the finite verb to the end of the clause.", "Keep the meaning of the original statement, but express it in your own sentence."], "pattern": "reporting verb + <strong>dass</strong> clause / reporting verb + infinitive idea where appropriate", "examples": [["Viele Jugendliche sagen, <strong>dass sie ohne ihr Handy nicht leben könnten</strong>.", "Many young people say that they could not live without their phone."], ["Die Lehrerin meint, <strong>dass Hausaufgaben sinnvoll sein können</strong>.", "The teacher thinks that homework can be useful."], ["Ein Experte erklärt, <strong>dass mehr Unterstützung nötig ist</strong>.", "An expert explains that more support is necessary."], ["Der Artikel zeigt, <strong>dass das Problem größer wird</strong>.", "The article shows that the problem is getting bigger."]], "watchouts": ["Do not just copy direct speech punctuation into German. Build a new reporting sentence.", "The verb still goes to the end in the <strong>dass</strong> clause.", "Choose reporting verbs carefully: <em>sagen</em>, <em>behaupten</em>, <em>erklären</em>, <em>betonen</em> all sound slightly different."], "memory": "<strong>Someone says X -> say who, then use a clear reporting clause.</strong>", "hinge": [{"q": "What is the purpose of reported speech?", "options": ["To describe a noun", "To report somebody else's words or ideas", "To form a comparative"], "answer": 1, "explain": "That is exactly what reported speech does."}, {"q": "Which sentence reports an opinion correctly?", "options": ["Viele Jugendliche sagen: Ich bin gestresst.", "Viele Jugendliche sagen, dass sie gestresst sind.", "Viele Jugendliche sagen, sie sind gestresst dass."], "answer": 1, "explain": "This is a clear reported-speech sentence with a <em>dass</em> clause."}, {"q": "What happens to the verb in a <em>dass</em> clause?", "options": ["It stays second.", "It goes to the end.", "It disappears."], "answer": 1, "explain": "A <em>dass</em> clause is subordinate."}], "practice": [{"type": "mcq", "q": "Choose the best reporting verb: Der Politiker ... , dass mehr Wohnungen gebaut werden müssen.", "options": ["fragt", "meint", "sieht"], "answer": 1, "explain": "<em>Meint</em> works naturally to report a stated opinion."}, {"type": "text", "q": "Turn into reported speech: 'Soziale Medien sind wichtig', sagt Lena.", "answer": "Lena sagt, dass soziale Medien wichtig sind.", "alts": ["lena sagt, dass soziale medien wichtig sind"], "explain": "Use a reporting verb plus a <em>dass</em> clause."}, {"type": "mcq", "q": "Which sentence is best?", "options": ["Der Artikel erklärt, dass viele Jugendliche wenig schlafen.", "Der Artikel erklärt, viele Jugendliche wenig schlafen.", "Der Artikel dass erklärt viele Jugendliche wenig schlafen."], "answer": 0, "explain": "This is the correct reporting structure."}, {"type": "text", "q": "Translate into German: The report says that many families need support.", "answer": "Der Bericht sagt, dass viele Familien Unterstützung brauchen.", "alts": ["der bericht sagt, dass viele familien unterstützung brauchen"], "explain": "A clear <em>dass</em> clause works well."}, {"type": "mcq", "q": "Choose the strongest analytical sentence.", "options": ["Ich denke das.", "Der Autor betont, dass digitale Medien Chancen und Risiken haben.", "Der Autor sagt digitale Medien."], "answer": 1, "explain": "This sounds analytical and complete."}], "apply": "Write <strong>three German sentences</strong> summarising what other people or sources say about a topic such as social media, family or politics.", "successModel": "Viele Jugendliche sagen, dass soziale Medien ein wichtiger Teil ihres Alltags sind. Der Artikel betont, dass ständiger Online-Druck das Wohlbefinden beeinträchtigen kann. Eine Expertin erklärt, dass klare Regeln zu Hause vielen Familien helfen würden."}, {"id": "reported2", "title": "Reported speech: more advanced use", "subtitle": "questions · viewpoints · analytical summary", "hook": "At a higher level, you can report different viewpoints, questions and reactions in a more formal, evaluative way.", "when": ["to compare different opinions", "to summarise an article or audio source precisely", "to report questions and doubts", "to make your speaking or essay sound more sophisticated"], "steps": ["Choose a precise reporting phrase: <strong>weist darauf hin</strong>, <strong>behauptet</strong>, <strong>fragt sich</strong>, <strong>zweifelt daran</strong>.", "Report statements with a clause, often with <strong>dass</strong>.", "Report yes/no questions with <strong>ob</strong>.", "Report uncertainty or criticism with analytical language."], "pattern": "reporting phrase + <strong>dass / ob</strong> clause + careful choice of register", "examples": [["Der Journalist <strong>weist darauf hin, dass</strong> viele junge Leute politisch aktiver werden.", "The journalist points out that many young people are becoming more politically active."], ["Manche Eltern <strong>fragen sich, ob</strong> soziale Medien ihren Kindern schaden.", "Some parents wonder whether social media harm their children."], ["Die Autorin <strong>behauptet, dass</strong> traditionelle Werte an Bedeutung verlieren.", "The author claims that traditional values are losing importance."], ["Der Bericht <strong>zweifelt daran, dass</strong> die bisherigen Maßnahmen ausreichen.", "The report doubts that the measures so far are enough."]], "watchouts": ["Use <strong>ob</strong> for reported yes/no questions, not <em>wenn</em> in this context.", "Choose the reporting phrase carefully. <em>Behauptet</em> sounds more doubtful than <em>erklärt</em>.", "Do not overuse one reporting verb such as <em>sagen</em>. Variety sounds more advanced."], "memory": "<strong>Advanced reported speech = choose the right reporting phrase and the right clause starter.</strong>", "hinge": [{"q": "Which word introduces a reported yes/no question?", "options": ["dass", "ob", "weil"], "answer": 1, "explain": "Use <em>ob</em> for 'whether / if' in reported questions."}, {"q": "Which sentence sounds most analytical?", "options": ["Er sagt, dass ...", "Der Autor weist darauf hin, dass ...", "Er geht ..."], "answer": 1, "explain": "This reporting phrase sounds more formal and analytical."}, {"q": "What does <em>behauptet</em> often suggest?", "options": ["neutral reporting", "a claim that may be questioned", "a question"], "answer": 1, "explain": "It can suggest a claim rather than a neutral fact."}], "practice": [{"type": "mcq", "q": "Complete the sentence: Viele Eltern fragen sich, ... soziale Medien den Schlaf beeinflussen.", "options": ["dass", "ob", "weil"], "answer": 1, "explain": "A reported yes/no question takes <em>ob</em>."}, {"type": "text", "q": "Translate into German: The article points out that young people want more political influence.", "answer": "Der Artikel weist darauf hin, dass junge Leute mehr politischen Einfluss wollen.", "alts": ["der artikel weist darauf hin, dass junge leute mehr politischen einfluss wollen"], "explain": "Use the analytical reporting phrase <em>weist darauf hin, dass</em>."}, {"type": "mcq", "q": "Which sentence is best?", "options": ["Der Bericht zweifelt daran, dass die Maßnahmen reichen.", "Der Bericht fragt, dass die Maßnahmen reichen.", "Der Bericht darüber zweifelt."], "answer": 0, "explain": "This is the strongest formal structure."}, {"type": "text", "q": "Turn into advanced reported speech: 'Sind die Regeln noch sinnvoll?', fragen viele Menschen.", "answer": "Viele Menschen fragen sich, ob die Regeln noch sinnvoll sind.", "alts": ["viele menschen fragen sich, ob die regeln noch sinnvoll sind"], "explain": "Use <em>fragen sich, ob ...</em>"}, {"type": "mcq", "q": "Choose the most precise summary sentence.", "options": ["Die Autorin sagt, dass das Thema wichtig ist.", "Die Autorin betont, dass dringender Handlungsbedarf besteht.", "Die Autorin macht Thema wichtig."], "answer": 1, "explain": "This sounds more formal and analytical."}], "apply": "Write <strong>three German sentences</strong> summarising different viewpoints on one topic. Use <strong>at least two different reporting phrases</strong>.", "successModel": "Der Artikel weist darauf hin, dass viele Jugendliche sich mehr Mitsprache in der Politik wünschen. Manche Erwachsene fragen sich, ob soziale Medien diese Entwicklung eher fördern oder behindern. Der Bericht betont außerdem, dass junge Menschen nur dann engagiert bleiben, wenn ihre Ideen ernst genommen werden."}];
+const stageNames = ["learn","hinge","practice","apply"];
+let currentLessonIndex = 0;
+let currentStageIndex = 0;
+let hingeResponses = [];
+let practiceResponses = [];
+let hingeScore = 0;
+let practiceScore = 0;
+function storageKey(id){ return "grammarTrainerDetailed_" + id; }
+function loadLessonState(id){ try{ return JSON.parse(localStorage.getItem(storageKey(id)) || '{"completed":false,"bestScore":0}'); }catch(e){ return {completed:false,bestScore:0}; } }
+function saveLessonState(id, data){ localStorage.setItem(storageKey(id), JSON.stringify(data)); }
+function currentLesson(){ return lessons[currentLessonIndex]; }
+function normalise(str){
+  return (str||"").toLowerCase().trim()
+    .replace(/[.,!?;:]/g,"")
+    .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")
+    .replace(/\s+/g," ");
+}
+function renderHome(){
+  document.getElementById("homeView").classList.remove("hidden");
+  document.getElementById("lessonView").classList.add("hidden");
+  const total = lessons.length;
+  const completed = lessons.filter(l => loadLessonState(l.id).completed).length;
+  const pct = total ? Math.round((completed/total)*100) : 0;
+  document.getElementById("ringPct").textContent = pct + "%";
+  document.getElementById("ring").style.setProperty("--p", pct + "%");
+  document.getElementById("lessonsComplete").textContent = completed + " / " + total;
+  document.getElementById("avgScore").textContent = Math.round(lessons.reduce((a,l)=>a+(loadLessonState(l.id).bestScore||0),0)/total) + "%";
+  document.getElementById("cards").innerHTML = lessons.map((lesson,i)=>{
+    const state = loadLessonState(lesson.id);
+    return `
+      <article class="lesson-card">
+        <div class="top">
+          <div>
+            <h3>${i+1}. ${lesson.title}</h3>
+            <p>${lesson.hook}</p>
+          </div>
+          <span class="badge">${lesson.subtitle}</span>
+        </div>
+        <div class="lesson-meta">
+          <span class="meta-pill">Learn it from scratch</span>
+          <span class="meta-pill">Hinge checks</span>
+          <span class="meta-pill">Practice + apply</span>
+        </div>
+        <div class="lesson-actions">
+          <button class="start-btn" onclick="openLesson(${i})">${state.completed ? "Review lesson" : "Start lesson"}</button>
+          <span class="score-note">${state.bestScore ? "Best score: " + state.bestScore + "%" : "No score yet"}</span>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+function openLesson(index){
+  currentLessonIndex = index;
+  currentStageIndex = 0;
+  hingeResponses = [];
+  practiceResponses = [];
+  hingeScore = 0;
+  practiceScore = 0;
+  document.getElementById("homeView").classList.add("hidden");
+  document.getElementById("lessonView").classList.remove("hidden");
+  renderLesson();
+}
+function goHome(){ renderHome(); }
+function stageLabel(name){
+  return name === "learn" ? "Learn" : name === "hinge" ? "Check" : name === "practice" ? "Practise" : "Apply";
+}
+function renderSidebar(){
+  const lesson = currentLesson();
+  document.getElementById("sideTitle").textContent = lesson.title;
+  document.getElementById("sideSubtitle").innerHTML = lesson.subtitle;
+  document.getElementById("steps").innerHTML = stageNames.map((s, i) => `
+    <div class="step ${i === currentStageIndex ? "active" : i < currentStageIndex ? "done" : ""}">
+      <div>
+        <div class="step-label">${i+1}. ${stageLabel(s)}</div>
+        <small>${s === "learn" ? "Understand the pattern" : s === "hinge" ? "Check the core idea" : s === "practice" ? "Build accuracy" : "Use it in German"}</small>
+      </div>
+      <strong>${i < currentStageIndex ? "✓" : i === currentStageIndex ? "→" : ""}</strong>
+    </div>
+  `).join("");
+}
+function setStage(title, intro, micro, bodyHtml){
+  document.getElementById("stageMicro").textContent = micro;
+  document.getElementById("stageTitle").textContent = title;
+  document.getElementById("stageIntro").innerHTML = intro;
+  document.getElementById("stageBody").innerHTML = bodyHtml;
+  const lesson = currentLesson();
+  const doneParts = currentStageIndex;
+  document.getElementById("progressFill").style.width = ((doneParts/stageNames.length)*100) + "%";
+}
+function renderLesson(){
+  renderSidebar();
+  const lesson = currentLesson();
+  if(stageNames[currentStageIndex] === "learn"){
+    setStage(
+      lesson.title,
+      "This lesson teaches the structure step by step in clear English first. Take your time with the examples before you move on.",
+      "Learn",
+      `
+        <div class="info-grid">
+          <div class="info-card">
+            <h4>What this helps you do</h4>
+            <p>${lesson.hook}</p>
+          </div>
+          <div class="info-card">
+            <h4>When you need it</h4>
+            <ul>${lesson.when.map(item=>`<li>${item}</li>`).join("")}</ul>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="info-card">
+            <h4>Build it step by step</h4>
+            <ol>${lesson.steps.map(item=>`<li>${item}</li>`).join("")}</ol>
+          </div>
+          <div class="info-card">
+            <h4>The pattern</h4>
+            <div class="pattern">${lesson.pattern}</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <h4>Worked examples</h4>
+          <div class="example-list">
+            ${lesson.examples.map(ex=>`
+              <div class="example">
+                <div class="de">${ex[0]}</div>
+                <div class="en">${ex[1]}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="tip-box">
+            <h4>Watch out</h4>
+            <ul>${lesson.watchouts.map(item=>`<li>${item}</li>`).join("")}</ul>
+          </div>
+          <div class="memory-box">
+            <h4 style="margin:0 0 10px;">Quick memory tip</h4>
+            <div>${lesson.memory}</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <h4>Before you move on</h4>
+          <div class="mini-checklist">
+            <div class="check-pill"><b>1</b><div>I know what this structure is used for.</div></div>
+            <div class="check-pill"><b>2</b><div>I can recognise the key pattern in an example.</div></div>
+            <div class="check-pill"><b>3</b><div>I know at least one common mistake to avoid.</div></div>
+          </div>
+        </div>
+        <div class="nav-row">
+          <button class="btn outline" onclick="goHome()">Back to lesson list</button>
+          <button class="btn next" onclick="nextStage()">Start the hinge questions</button>
+        </div>
+      `
+    );
+  } else if(stageNames[currentStageIndex] === "hinge"){
+    renderQuestionStage("Hinge questions", lesson.hinge, "hinge");
+  } else if(stageNames[currentStageIndex] === "practice"){
+    renderQuestionStage("Practice tasks", lesson.practice, "practice");
+  } else {
+    const overall = Math.round(((hingeScore + practiceScore) / (lesson.hinge.length + lesson.practice.length)) * 100);
+    setStage(
+      "Apply the grammar",
+      "Now use the structure yourself. Keep the response short, accurate and controlled. Then compare your answer with a strong model.",
+      "Apply",
+      `
+        <div class="question-card">
+          <h4>Your task</h4>
+          <p>${lesson.apply}</p>
+          <div class="input-wrap">
+            <textarea id="applyText" placeholder="Write your German here..."></textarea>
+            <button class="btn next" onclick="checkApply()">Get accuracy feedback</button>
+          </div>
+          <div id="applyFeedback"></div>
+          <div class="result-grid">
+            <div class="result-card">
+              <div class="micro">Hinge check</div>
+              <strong>${Math.round((hingeScore/lesson.hinge.length)*100)}%</strong>
+            </div>
+            <div class="result-card">
+              <div class="micro">Practice</div>
+              <strong>${Math.round((practiceScore/lesson.practice.length)*100)}%</strong>
+            </div>
+            <div class="result-card">
+              <div class="micro">Lesson score so far</div>
+              <strong>${overall}%</strong>
+            </div>
+          </div>
+          <div class="success-answer">
+            <strong>Strong model answer</strong><br>
+            ${lesson.successModel}
+          </div>
+        </div>
+        <div class="nav-row">
+          <button class="btn outline" onclick="previousStage()">Back to practice</button>
+          <button class="btn next" onclick="finishLesson()">Finish lesson</button>
+        </div>
+      `
+    );
+  }
+}
+function renderQuestionStage(title, questions, kind){
+  const idx = kind === "hinge" ? hingeResponses.length : practiceResponses.length;
+  const total = questions.length;
+  const q = questions[Math.min(idx, total-1)];
+  if(idx >= total){
+    const score = kind === "hinge" ? hingeScore : practiceScore;
+    const percent = Math.round((score / total) * 100);
+    setStage(
+      title + " complete",
+      percent >= 80 ? "Strong work. You seem secure enough to move on." : "You are building this. Review the feedback, then move on and keep practising.",
+      kind === "hinge" ? "Check complete" : "Practice complete",
+      `
+        <div class="question-card">
+          <h4>${title} complete</h4>
+          <p>You got <strong>${score}</strong> out of <strong>${total}</strong> correct.</p>
+          <div class="result-grid">
+            <div class="result-card"><div class="micro">Score</div><strong>${score} / ${total}</strong></div>
+            <div class="result-card"><div class="micro">Accuracy</div><strong>${percent}%</strong></div>
+            <div class="result-card"><div class="micro">Next step</div><strong>${kind === "hinge" ? "Practise it" : "Apply it"}</strong></div>
+          </div>
+        </div>
+        <div class="nav-row">
+          <button class="btn outline" onclick="previousStage()">Back</button>
+          <button class="btn next" onclick="nextStage()">Continue</button>
+        </div>
+      `
+    );
+    return;
+  }
+  const prompt = q.type === "text"
+    ? `<div class="input-wrap"><input class="text-input" id="freeInput" placeholder="Type your answer here" /><button class="btn next" onclick="submitTextQuestion('${kind}')">Check answer</button></div>`
+    : `<div class="option-list">${q.options.map((opt, i)=>`<button class="option-btn" onclick="submitMCQ('${kind}', ${i})">${opt}</button>`).join("")}</div>`;
+  setStage(
+    title,
+    kind === "hinge" ? "These quick questions tell you whether the core idea has landed." : "Now practise the structure in short, focused tasks. Mix recognition, translation and control.",
+    kind === "hinge" ? "Check" : "Practise",
+    `
+      <div class="question-card">
+        <div class="micro">Question ${idx+1} of ${total}</div>
+        <h4>${q.q}</h4>
+        ${prompt}
+        <div id="qFeedback"></div>
+      </div>
+      <div class="nav-row">
+        <button class="btn outline" onclick="previousStage()">Back</button>
+        <button class="btn ghost" onclick="goHome()">Leave lesson</button>
+      </div>
+    `
+  );
+}
+function submitMCQ(kind, choice){
+  const lesson = currentLesson();
+  const responses = kind === "hinge" ? hingeResponses : practiceResponses;
+  const q = (kind === "hinge" ? lesson.hinge : lesson.practice)[responses.length];
+  const buttons = Array.from(document.querySelectorAll(".option-btn"));
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.answer) btn.classList.add("correct");
+    if(i === choice && i !== q.answer) btn.classList.add("wrong");
+  });
+  const correct = choice === q.answer;
+  if(correct) {
+    if(kind === "hinge") hingeScore++;
+    else practiceScore++;
+  }
+  responses.push({correct});
+  document.getElementById("qFeedback").innerHTML = `<div class="feedback ${correct ? "good" : "bad"}">${correct ? "Correct." : "Not quite."} ${q.explain}</div><div class="nav-row" style="margin-top:14px;"><button class="btn next" onclick="renderStage()">Next question</button></div>`;
+}
+function submitTextQuestion(kind){
+  const lesson = currentLesson();
+  const responses = kind === "hinge" ? hingeResponses : practiceResponses;
+  const q = (kind === "hinge" ? lesson.hinge : lesson.practice)[responses.length];
+  const raw = document.getElementById("freeInput").value;
+  const answer = normalise(raw);
+  const accepted = [normalise(q.answer)].concat((q.alts || []).map(normalise));
+  let correct = accepted.includes(answer);
+  if(!correct) {
+    correct = accepted.some(a => answer.includes(a) || a.includes(answer));
+  }
+  if(correct) {
+    if(kind === "hinge") hingeScore++;
+    else practiceScore++;
+  }
+  responses.push({correct, raw});
+  document.getElementById("freeInput").disabled = true;
+  document.querySelector("#stageBody .btn.next").disabled = true;
+  document.getElementById("qFeedback").innerHTML = `
+    <div class="feedback ${correct ? "good" : "bad"}">
+      ${correct ? "Well done." : "Keep building it."} ${q.explain}
+      <div style="margin-top:8px;"><strong>Suggested answer:</strong> ${q.answer}</div>
+    </div>
+    <div class="nav-row" style="margin-top:14px;"><button class="btn next" onclick="renderStage()">Next question</button></div>
+  `;
+}
+function renderStage(){ renderLesson(); }
+function nextStage(){ currentStageIndex = Math.min(stageNames.length - 1, currentStageIndex + 1); renderLesson(); }
+function previousStage(){ currentStageIndex = Math.max(0, currentStageIndex - 1); renderLesson(); }
+function scoreWriting(text, lesson){
+  const lower = text.toLowerCase();
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  const sentences = text.split(/[.!?]+/).filter(x=>x.trim()).length;
+  const comma = text.includes(",");
+  const grammarSignals = [
+    /weil|dass|obwohl|wenn/,
+    /wurde|wurden|wird|werden|ist .*t|ist .*en|sind .*t|sind .*en/,
+    /wurde|würde|würden|hätte|hätten|wäre|wären/,
+    /um .* zu|ohne .* zu|lässt sich|lassen sich/,
+    /der|die|das|über die|über das|mit denen|ob /,
+    /sagt, dass|meint, dass|betont, dass|weist darauf hin, dass|fragt sich, ob|zweifelt daran, dass/
+  ];
+  let signals = grammarSignals.filter(r => r.test(lower)).length;
+  let points = 20;
+  const feedback = [];
+  if(words < 12) { points -= 5; feedback.push("Write a little more so you can show the grammar clearly."); }
+  else feedback.push("Length is strong enough to show the grammar in context.");
+  if(sentences < 2) { points -= 3; feedback.push("Aim for at least two clear sentences."); }
+  else feedback.push("You have more than one sentence, which helps you develop the idea.");
+  if(signals < 1) { points -= 5; feedback.push("The target grammar is not clear enough yet."); }
+  else if(signals < 2) { points -= 2; feedback.push("You used some target grammar. Try to make it more obvious next time."); }
+  else feedback.push("Good: the target grammar is clearly visible.");
+  if(!comma) { points -= 2; feedback.push("Check your punctuation, especially commas in German clause structures."); }
+  else feedback.push("Your punctuation helps the structure.");
+  if(/\b(the|and|is|are|because|with|that|young|people|school|city|important)\b/i.test(text)) {
+    points -= 4; feedback.push("Keep the answer fully in German.");
+  } else feedback.push("Your answer stays in German.");
+  if(!/[.?!]$/.test(text.trim())) { points -= 1; feedback.push("Finish the response with full sentence punctuation."); }
+  if(points < 0) points = 0;
+  if(points > 20) points = 20;
+  return {points, feedback};
+}
+function checkApply(){
+  const text = document.getElementById("applyText").value.trim();
+  if(!text){
+    document.getElementById("applyFeedback").innerHTML = `<div class="feedback bad" style="margin-top:14px;">Write your German first, then check it.</div>`;
+    return;
+  }
+  const result = scoreWriting(text, currentLesson());
+  const band = result.points >= 18 ? "Top band" : result.points >= 15 ? "Strong" : result.points >= 11 ? "Developing well" : "Needs more control";
+  document.getElementById("applyFeedback").innerHTML = `
+    <div class="feedback ${result.points >= 15 ? "good" : "bad"}" style="margin-top:14px;">
+      <strong>Accuracy feedback: ${result.points} / 20 (${''}${band})</strong><br>
+      ${result.feedback.map(x => "• " + x).join("<br>")}
+    </div>
+  `;
+}
+function finishLesson(){
+  const lesson = currentLesson();
+  const currentState = loadLessonState(lesson.id);
+  const overall = Math.round(((hingeScore + practiceScore) / (lesson.hinge.length + lesson.practice.length)) * 100);
+  saveLessonState(lesson.id, {
+    completed:true,
+    bestScore:Math.max(currentState.bestScore||0, overall),
+    lastOpened:new Date().toISOString()
+  });
+  goHome();
+}
+document.getElementById("resumeBtn").addEventListener("click", () => {
+  const firstIncomplete = lessons.findIndex(l => !loadLessonState(l.id).completed);
+  openLesson(firstIncomplete === -1 ? 0 : firstIncomplete);
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if(!confirm("Reset all saved progress?")) return;
+  lessons.forEach(l => localStorage.removeItem(storageKey(l.id)));
+  renderHome();
+});
+renderHome();
+</script>
+</body>
+</html>
